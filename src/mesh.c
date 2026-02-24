@@ -23,8 +23,7 @@ Mesh* find_mesh(const char* key) {
 }
 
 static char* read_line(FILE* f) {
-	static int c = '\n';
-	if (c == EOF)
+	if (feof(f))
 		return NULL;
 
 	static char line[128] = {0};
@@ -32,6 +31,7 @@ static char* read_line(FILE* f) {
 	memset(line, 0, sizeof(line));
 	char* buf = line;
 
+	int c = EOF;
 	while ((c = fgetc(f)) != EOF && c != '\n')
 		*buf++ = (char)c;
 
@@ -54,6 +54,23 @@ void load_obj(const char* path) {
 	}
 
 	reset_pos(file);
+
+	mesh.vertices = malloc(sizeof(Vertex) * mesh.vcount);
+	Vertex* v = mesh.vertices;
+
+	mesh.faces = malloc(sizeof(Vertex) * mesh.fcount);
+	Face* f = mesh.faces;
+
+	for (const char* line = NULL; (line = read_line(file));) {
+		if (line[0] == 'v' && line[1] == ' ') {
+			sscanf(line, "v %f %f %f", &v->pos.x, &v->pos.y, &v->pos.z);
+			v++;
+		} else if (line[0] == 'f' && line[1] == ' ') {
+			sscanf(line, "f %hu/%hu/%hu %hu/%hu/%hu %hu/%hu/%hu", &f->a, NULL, NULL, &f->b, NULL, NULL,
+				&f->c, NULL, NULL);
+			f++;
+		}
+	}
 
 	put_mesh(path, mesh);
 }
