@@ -3,7 +3,9 @@
 #include <string.h>
 
 #include <S_tructures.h>
+#include <poormans.h>
 
+#include "camera.h"
 #include "mesh.h"
 #include "panic.h"
 
@@ -55,6 +57,8 @@ void load_obj(const char* path) {
 
 	reset_pos(file);
 
+	mesh.pos = ORIGIN;
+
 	mesh.vertices = malloc(sizeof(Vertex) * mesh.vcount);
 	Vertex* v = mesh.vertices;
 
@@ -73,4 +77,29 @@ void load_obj(const char* path) {
 	}
 
 	put_mesh(path, mesh);
+}
+
+void draw_mesh(const Mesh* mesh) {
+	extern Camera camera;
+	static const float n = 1.f;
+
+	const float w = (float)poor_width(), h = (float)poor_height(), ar = w / h;
+
+	for (size_t iv = 0; iv < mesh->vcount; iv++) {
+		Vertex v = mesh->vertices[iv];
+
+		v.pos = v3add(v.pos, mesh->pos);
+		v.pos = v3sub(v.pos, camera.pos);
+
+		if (v.pos.z < 1e-5)
+			continue;
+
+		v.pos.x *= n / v.pos.z;
+		v.pos.y *= n / v.pos.z;
+
+		v.pos.x = (0.5f * v.pos.x + 0.5f) * w;
+		v.pos.y = (1.f - (0.5f * v.pos.y + 0.5f)) * h;
+
+		poor_ch((int)v.pos.x, (int)v.pos.y, '@');
+	}
 }

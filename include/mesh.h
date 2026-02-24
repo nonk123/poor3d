@@ -18,7 +18,10 @@ typedef struct {
 
 	Face* faces;
 	uint16_t fcount;
+
+	Vec3 pos;
 } Mesh;
 
 Mesh* find_mesh(const char* key);
 void load_obj(const char* path);
+void draw_mesh(const Mesh*);
