@@ -88,7 +88,7 @@ void draw_mesh(const Mesh* mesh) {
 	extern Camera camera;
 	static const float n = 1.f;
 
-	const float w = (float)poor_width(), h = (float)poor_height(), ar = w / h;
+	const float w = (float)poor_width(), h = (float)poor_height(), font_ar = 9.f / 16.f, ar = (w / h) * font_ar;
 
 	for (size_t iv = 0; iv < mesh->vcount; iv++) {
 		Vertex v = mesh->vertices[iv];
@@ -99,12 +99,13 @@ void draw_mesh(const Mesh* mesh) {
 		if (v.pos.z < 1e-5)
 			continue;
 
-		v.pos.x *= n / v.pos.z;
+		v.pos.x *= n / v.pos.z / ar;
 		v.pos.y *= n / v.pos.z;
 
 		v.pos.x = (0.5f * v.pos.x + 0.5f) * w;
 		v.pos.y = (1.f - (0.5f * v.pos.y + 0.5f)) * h;
 
+		poor_fg((int)v.pos.x, (int)v.pos.y, POOR_BRIGHT_WHITE);
 		poor_ch((int)v.pos.x, (int)v.pos.y, '@');
 	}
 }
