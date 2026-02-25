@@ -21,5 +21,8 @@ int main(int argc, char* argv[]) {
 			poor_exit();
 	}
 
+	extern StTinyMap* meshes;
+	FreeTinyMap(meshes);
+
 	return EXIT_SUCCESS;
 }

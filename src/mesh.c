@@ -9,7 +9,12 @@
 #include "mesh.h"
 #include "panic.h"
 
-static StTinyMap* meshes = NULL;
+StTinyMap* meshes = NULL;
+
+static void nuke_mesh(void* raw) {
+	Mesh* mesh = raw;
+	free(mesh->vertices), free(mesh->faces);
+}
 
 static void put_mesh(const char* key, const Mesh value) {
 	if (!meshes) {
@@ -17,7 +22,7 @@ static void put_mesh(const char* key, const Mesh value) {
 		if (!meshes)
 			panic();
 	}
-	StMapPut(meshes, StHashStr(key), &value, sizeof(value));
+	StMapPut(meshes, StHashStr(key), &value, sizeof(value))->cleanup = nuke_mesh;
 }
 
 Mesh* find_mesh(const char* key) {
