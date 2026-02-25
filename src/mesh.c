@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 #include <S_tructures.h>
 #include <poormans.h>
@@ -92,8 +93,11 @@ void draw_mesh(const Mesh* mesh) {
 
 	for (size_t iv = 0; iv < mesh->vcount; iv++) {
 		Vertex v = mesh->vertices[iv];
-
 		v.pos = v3add(v.pos, mesh->pos);
+
+		// FIXME: fucked up.
+		const float yaw = atan2f(camera.dir.z, camera.dir.x);
+		v.pos = rotate_y(v.pos, -yaw);
 		v.pos = v3sub(v.pos, camera.pos);
 
 		if (v.pos.z < 1e-5)

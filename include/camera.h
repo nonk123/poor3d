@@ -7,4 +7,4 @@ typedef struct {
 	float fov;
 } Camera;
 
-void look_at(Vec3 from, Vec3 to), look_dir(Vec3 from, Vec3 dir);
+void look_at(Vec3 from, Vec3 target), look_dir(Vec3 from, Vec3 dir);
