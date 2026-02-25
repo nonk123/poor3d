@@ -10,7 +10,7 @@ include(FetchContent)
 
 FetchContent_Declare(poormans
     GIT_REPOSITORY https://github.com/nonk123/poormans.git
-    GIT_TAG de96b8546a5fdf13be1b5ebeb9c7d3b6d2faaa25)
+    GIT_TAG be0a9903a1e900193fe70cc425b7c69e15b904ad)
 
 FetchContent_Declare(S_tructures
     GIT_REPOSITORY https://github.com/Schwungus/S_tructures.git
