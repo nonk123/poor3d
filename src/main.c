@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
 
 	WHILE_POOR {
 		look_at(XYZ(cosf(angle) * radius, 0.f, sinf(angle) * radius), ORIGIN);
-		angle += 0.01f;
+		angle += 2.f * poor_dtf();
 
 		Mesh* mesh = find_mesh("assets/penger-no-hull.obj");
 		mesh->pos.y = -0.5f;
