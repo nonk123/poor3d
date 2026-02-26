@@ -6,8 +6,8 @@
 #define S_TRUCTURES_IMPLEMENTATION
 #include <S_tructures.h>
 
-#include "mesh.h"
 #include "camera.h"
+#include "mesh.h"
 
 int main(int argc, char* argv[]) {
 	(void)argc, (void)argv;

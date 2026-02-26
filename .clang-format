@@ -20,7 +20,17 @@ AlwaysBreakAfterReturnType: None
 AccessModifierOffset: -8
 IndentCaseLabels: true
 AlignAfterOpenBracket: DontAlign
-SortIncludes: Never
 InsertNewlineAtEOF: true
 InsertBraces: false
 ForEachMacros: [WHILE_POOR]
+IncludeIsMainRegex: "a{999}" # no main includes
+SortIncludes: CaseSensitive
+IncludeCategories:
+  - Regex: "^<(std|str|math)"
+    Priority: 0
+  - Regex: "^<"
+    Priority: 10
+  - Regex: '^"'
+    Priority: 20
+  - Regex: ".*"
+    Priority: 100

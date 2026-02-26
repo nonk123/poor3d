@@ -1,15 +1,15 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include <S_tructures.h>
 #include <poormans.h>
 
 #include "camera.h"
+#include "coolmath.h"
 #include "mesh.h"
 #include "panic.h"
-#include "coolmath.h"
 
 StTinyMap* meshes = NULL;
 
