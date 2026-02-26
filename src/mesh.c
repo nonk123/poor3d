@@ -88,9 +88,11 @@ void load_obj(const char* path) {
 
 void draw_mesh(const Mesh* mesh) {
 	extern Camera camera;
-	static const float n = 1.f;
 
-	const float w = (float)poor_width(), h = (float)poor_height(), font_ar = 9.f / 16.f, ar = (w / h) * font_ar;
+	const float znear = 0.5f, zfar = 128.f, zlen = zfar / (zfar - znear);
+	const float w = (float)poor_width(), h = (float)poor_height();
+	const float font_ar = 9.f / 16.f, ar = (w / h) * font_ar;
+	const float tg = tanf(0.5f * camera.fov * DEG2RAD);
 
 	for (size_t iv = 0; iv < mesh->vcount; iv++) {
 		Vertex v = mesh->vertices[iv];
@@ -101,11 +103,12 @@ void draw_mesh(const Mesh* mesh) {
 		v.pos = rotate_y(v.pos, -yaw);
 		v.pos = v3sub(v.pos, camera.pos);
 
-		if (v.pos.z < 1e-5)
+		if (v.pos.z < znear || v.pos.z > zfar)
 			continue;
 
-		v.pos.x *= n / v.pos.z / ar / tanf(0.5f * camera.fov * DEG2RAD);
-		v.pos.y *= n / v.pos.z;
+		v.pos.x *= tg / v.pos.z / ar;
+		v.pos.y *= tg / v.pos.z;
+		v.pos.z = v.pos.z * zlen - znear * zlen;
 
 		v.pos.x = (0.5f * v.pos.x + 0.5f) * w;
 		v.pos.y = (1.f - (0.5f * v.pos.y + 0.5f)) * h;
