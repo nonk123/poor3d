@@ -9,6 +9,7 @@
 #include "camera.h"
 #include "mesh.h"
 #include "panic.h"
+#include "coolmath.h"
 
 StTinyMap* meshes = NULL;
 
@@ -103,7 +104,7 @@ void draw_mesh(const Mesh* mesh) {
 		if (v.pos.z < 1e-5)
 			continue;
 
-		v.pos.x *= n / v.pos.z / ar;
+		v.pos.x *= n / v.pos.z / ar / tanf(0.5f * camera.fov * DEG2RAD);
 		v.pos.y *= n / v.pos.z;
 
 		v.pos.x = (0.5f * v.pos.x + 0.5f) * w;
