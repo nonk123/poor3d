@@ -93,14 +93,14 @@ void draw_mesh(const Mesh* mesh) {
 	const float w = (float)poor_width(), h = (float)poor_height();
 	const float font_ar = 9.f / 16.f, ar = (w / h) * font_ar;
 	const float tg = tanf(0.5f * camera.fov * DEG2RAD);
+	const float camera_yaw = atan2f(camera.dir.z, camera.dir.x);
 
 	for (size_t iv = 0; iv < mesh->vcount; iv++) {
 		Vertex v = mesh->vertices[iv];
 		v.pos = v3add(v.pos, mesh->pos);
 
 		// FIXME: fucked up.
-		const float yaw = atan2f(camera.dir.z, camera.dir.x);
-		v.pos = rotate_y(v.pos, -yaw);
+		v.pos = rotate_y(v.pos, -camera_yaw);
 		v.pos = v3sub(v.pos, camera.pos);
 
 		if (v.pos.z < znear || v.pos.z > zfar)
